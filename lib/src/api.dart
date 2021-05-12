@@ -4,7 +4,6 @@ import 'package:spotify_web_api/src/endpoints.dart';
 import 'package:spotify_web_api/src/scopes.dart';
 
 class Spotify {
-
   String clientID;
 
   String redirectUrl;
@@ -13,15 +12,32 @@ class Spotify {
 
   SpotifyWebApi _spotifyWebApi;
 
-  SpotifyEndpoints endpoints = SpotifyEndpoints();
+  String _authorizationCode;
 
-  Spotify({@required this.clientID,@required this.clientSecret, @required this.redirectUrl}):assert(clientID!=null),assert(clientSecret!=null),assert(redirectUrl!=null) {
-    _spotifyWebApi = SpotifyWebApi(this.clientID,this.clientSecret,this.redirectUrl);
+  String get authorizationCode => _authorizationCode;
+
+  String _accessToken;
+
+  String get accessToken => _accessToken;
+
+  Spotify(
+      {@required this.clientID,
+      @required this.clientSecret,
+      @required this.redirectUrl})
+      : assert(clientID != null),
+        assert(clientSecret != null),
+        assert(redirectUrl != null) {
+    _spotifyWebApi =
+        SpotifyWebApi(this.clientID, this.clientSecret, this.redirectUrl);
   }
 
-  Future<String> get getAccessToken => _spotifyWebApi.getAccessToken();
+  Future<Spotify> getAccessToken() async {
+    _accessToken = await _spotifyWebApi.getAccessToken();
+    return this;
+  }
 
-  String getAuthorizationCode(List<SpotifyScopes> scope) => _spotifyWebApi.getAuthorization(scope);
-
+  Spotify getAuthorizationCode(List<SpotifyScopes> scope) {
+      this._authorizationCode = _spotifyWebApi.getAuthorization(scope);
+      return this;
+  }
 }
-
