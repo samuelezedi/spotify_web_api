@@ -4,6 +4,7 @@ import 'package:spotify_web_api/src/scopes.dart';
 import 'package:spotify_web_api/src/view/spotify-webview.dart';
 
 class Spotify {
+
   String clientID;
 
   String redirectUrl;
@@ -31,9 +32,8 @@ class Spotify {
         SpotifyWebApi(this.clientID, this.clientSecret, this.redirectUrl);
   }
 
-  Future<Spotify> getAccessToken() async {
-    _accessToken = await _spotifyWebApi.getAccessToken();
-    return this;
+  Future<List<String>> getAccessToken(String code) async {
+    return await _spotifyWebApi.getAccessToken(code);
   }
 
   Future<String> getAuthorizationCode(List<SpotifyScopes> scope,BuildContext context) async {

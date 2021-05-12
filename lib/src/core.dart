@@ -14,7 +14,7 @@ class SpotifyWebApi {
 
   SpotifyWebApi(this._clientId, this._clientSecret,this._redirectUri);
 
-  Future<String> _getAccessToken() async {
+  Future<List<String>> _getAccessToken(String code) async {
 
     Map<String, dynamic> headers = {
       'content-type' : 'application/x-www-form-urlencoded',
@@ -22,22 +22,24 @@ class SpotifyWebApi {
     };
 
     Map<String, dynamic> body = {
-      'grant_type' : 'client_credentials',
+      'grant_type' : 'authorization_code',
+      'code' : '$code',
+      'redirect_uri' : '$_redirectUri'
     };
 
     try{
-      Uri path = Uri.parse("$spotifyBaseUrl"+"${SpotifyEndpoints.token}");
+      Uri path = Uri.parse("$spotifyApiBaseUrl"+"${SpotifyEndpoints.token}");
       final response = await post(path,headers: headers,body: body);
       print(response.body);
       final result = jsonDecode(response.body);
-      return result['access_token'];
+      return [result['access_token'],result['refresh_token']];
     }catch(e){
       print(e.toString());
     }
 
   }
   
-  Future<String> getAccessToken() => _getAccessToken();
+  Future<List<String>> getAccessToken(String code) => _getAccessToken(code);
 
   String _getAuthorization(List<SpotifyScopes> scopes) {
     String allScopes = this.scopesCompiler(scopes);
