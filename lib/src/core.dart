@@ -41,10 +41,6 @@ class SpotifyWebApi {
 
   String _getAuthorization(List<SpotifyScopes> scopes) {
     String allScopes = this.scopesCompiler(scopes);
-    Map<String, dynamic> headers = {
-      'content-type' : 'application/x-www-form-urlencoded',
-      'Authorization' : "Basic " + base64.encode(utf8.encode("${this._clientId} : ${this._clientSecret}")),
-    };
 
     String redirectUri = base64.encode(utf8.encode("${this._redirectUri}"));
     String url = "$spotifyBaseUrl"+"${SpotifyEndpoints.authorize}?client_id=$_clientId&response_type=code&redirect_uri=$redirectUri&scopes=$allScopes";
