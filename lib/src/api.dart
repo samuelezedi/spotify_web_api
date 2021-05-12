@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spotify_web_api/src/core.dart';
-import 'package:spotify_web_api/src/endpoints.dart';
 import 'package:spotify_web_api/src/scopes.dart';
+import 'package:spotify_web_api/src/view/spotify-webview.dart';
 
 class Spotify {
   String clientID;
@@ -36,8 +36,15 @@ class Spotify {
     return this;
   }
 
-  Spotify getAuthorizationCode(List<SpotifyScopes> scope) {
+  Future<String> getAuthorizationCode(List<SpotifyScopes> scope,BuildContext context) async {
       this._authorizationCode = _spotifyWebApi.getAuthorization(scope);
-      return this;
+      //call Webview
+      var data = await Navigator.push(context,MaterialPageRoute(builder: (context)=>SpotifyWebView(url: this._authorizationCode,redirectUrl: this.redirectUrl,)));
+      if(data!=null) {
+        return data;
+      }
+      return null;
   }
+
+
 }
