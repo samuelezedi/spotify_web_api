@@ -42,8 +42,9 @@ class SpotifyWebApi {
   String _getAuthorization(List<SpotifyScopes> scopes) {
     String allScopes = this.scopesCompiler(scopes);
 
-    String redirectUri =  Uri.encodeFull(this._redirectUri);
-    String url = "$spotifyBaseUrl"+"${SpotifyEndpoints.authorize}?client_id=$_clientId&response_type=code&redirect_uri=$redirectUri&scopes=$allScopes";
+    https://accounts.spotify.com/en/authorize?response_type=code&client_id=a8f9ca92f438485d80b316a8ac067665&scope=playlist-modify-public&redirect_uri=http:%2F%2Fsheepmachine.com%2Fspotify-callback.html
+
+    String url = "$spotifyBaseUrl/en"+"${SpotifyEndpoints.authorize}?client_id=$_clientId&response_type=code&redirect_uri=$_redirectUri&scopes=$allScopes";
     return url;
   }
 
