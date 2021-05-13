@@ -43,7 +43,7 @@ class _CheckSpotState extends State<CheckSpot> {
           Center(
             child: InkWell(
               onTap: ()async{
-                Spotify sp = Spotify(clientID: "a8f9ca92f438485d80b316a8ac067665", clientSecret: "62c6c514cd654ec5962fbc1f9c76816e", redirectUrl: "http://sheepmachine.com/spotify-callback.html");
+                Spotify sp = Spotify(clientID: "", clientSecret: "", redirectUrl: "http://sheepmachine.com/spotify-callback.html");
                 var data = await sp.getAuthorizationCode([SpotifyScopes.playlistReadPrivate], context);
                 print(data);
                 var list = await sp.getAccessToken(data);
