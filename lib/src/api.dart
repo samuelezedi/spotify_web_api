@@ -46,5 +46,9 @@ class Spotify {
       return null;
   }
 
+  Future<dynamic> getPlaylist() => _getPlaylist();
+
+  Future<dynamic> _getPlaylist() => _spotifyWebApi.getPlaylist();
+
 
 }

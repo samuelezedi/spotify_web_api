@@ -7,5 +7,5 @@ String spotifyBaseUrl = "https://accounts.spotify.com";
 
 Map<SpotifyScopes, String> spotifyScopeList = {
   SpotifyScopes.userReadEmail: "user-read-email",
-  SpotifyScopes.playlistReadPrivate: "playlist-read-private"
+  SpotifyScopes.playlistReadPrivate: "playlist-read-private",
 };

@@ -57,4 +57,11 @@ class SpotifyWebApi {
     return scopes;
   }
 
+  Future<dynamic> getPlaylist() => _getPlaylist();
+
+  Future<dynamic> _getPlaylist() async {
+    //write what you need here
+
+  }
+
 }
