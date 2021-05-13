@@ -39,12 +39,12 @@ class _SpotifyWebViewState extends State<SpotifyWebView> {
               shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
               content: Container(
-                  color: Colors.black,
+                  color: Colors.white,
                   height: 110,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text('Are you sure you want to close this?',),
+                      Text('Are you sure you want to close this?',style: TextStyle(color: Colors.black),),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
@@ -93,6 +93,7 @@ class _SpotifyWebViewState extends State<SpotifyWebView> {
             leading: IconButton(
               icon: Icon(
                 Icons.arrow_back,
+                color: Colors.black,
               ),
               onPressed: () {
                 //working on here
@@ -118,13 +119,13 @@ class _SpotifyWebViewState extends State<SpotifyWebView> {
                   },
 
                   onPageFinished: (c) {
-                    if (c == widget.redirectUrl) {
+                    setState(() {
+                      showLoading = false;
+                    });
+                    if (c.contains("code=")) {
+                      Future.delayed(Duration(seconds: 2));
                       String code = this.getCodeParameter(widget.redirectUrl);
                       Navigator.pop(context, code);
-                    } else if (c == widget.url) {
-                      setState(() {
-                        showLoading = !showLoading;
-                      });
                     }
                   },
 
