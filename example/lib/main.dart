@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spotify_web_api/spotify_web_api.dart';
 
+
 void main() {
   runApp(MyApp());
 }
@@ -34,24 +35,59 @@ class CheckSpot extends StatefulWidget {
 }
 
 class _CheckSpotState extends State<CheckSpot> {
+  List<Map<String, dynamic>> playlists = [];
+  List<String> tokenList = [];
+  List<Track> tracks = [];
+  Spotify sp;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    sp = Spotify(
+        clientID: "",
+        clientSecret: "",
+        redirectUrl: "http://sheepmachine.com/spotify-callback.html");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
         children: [
           Center(
             child: InkWell(
-              onTap: ()async{
-                Spotify sp = Spotify(clientID: "", clientSecret: "", redirectUrl: "http://sheepmachine.com/spotify-callback.html");
-                var data = await sp.getAuthorizationCode([SpotifyScopes.playlistReadPrivate], context);
-                print(data);
-                var list = await sp.getAccessToken(data);
-                print(list);
+              onTap: () async {
+
+                var data = await sp.getAuthorizationCode(
+                    [SpotifyScopes.playlistReadPrivate], context);
+
+                tokenList = await sp.getAccessToken(data);
+
+                playlists = await sp.getUserPlaylists(tokenList[0]);
+                setState(() {});
               },
-              child: Text('Check',style:TextStyle(fontSize: 20, color: Colors.black)),
+              child: Text('Check',
+                  style: TextStyle(fontSize: 20, color: Colors.black)),
             ),
-          )
+          ),
+          ...playlists
+              .map((e) => ListTile(
+              onTap: ()async{
+                print('heyy');
+                tracks = await sp.getTracksOfPlaylist(accessToken : tokenList[0], playlistId: e['playlistId']);
+                setState(() {
+
+                });
+              },
+              title: Text(e['playlistName']), subtitle: Text(e['playlistId'])))
+              .toList(),
+          ...tracks
+              .map((track) => ListTile(
+              title: Text(track.name), subtitle: Text('${track.artists.join(', ')}'),))
+              .toList()
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spotify_web_api/src/core.dart';
+import 'package:spotify_web_api/src/model/track.dart';
 import 'package:spotify_web_api/src/scopes.dart';
 import 'package:spotify_web_api/src/view/spotify-webview.dart';
 
@@ -40,15 +41,21 @@ class Spotify {
       this._authorizationCode = _spotifyWebApi.getAuthorization(scope);
       //call Webview
       var data = await Navigator.push(context,MaterialPageRoute(builder: (context)=>SpotifyWebView(url: this._authorizationCode,redirectUrl: this.redirectUrl,)));
+
       if(data!=null) {
         return data;
       }
       return null;
   }
 
-  Future<dynamic> getPlaylist() => _getPlaylist();
+  Future<List<Map<String,dynamic>>> getUserPlaylists(String accessToken) async {
+    return await _spotifyWebApi.getUserPlaylists(accessToken);
+  }
 
-  Future<dynamic> _getPlaylist() => _spotifyWebApi.getPlaylist();
+  Future<List<Track>> getTracksOfPlaylist({@required String accessToken, @required String playlistId}) async {
+    return await _spotifyWebApi.getTracksOfPlaylist(accessToken,playlistId);
+  }
+
 
 
 }

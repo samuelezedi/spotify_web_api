@@ -124,7 +124,7 @@ class _SpotifyWebViewState extends State<SpotifyWebView> {
                     });
                     if (c.contains("code=")) {
                       Future.delayed(Duration(seconds: 2));
-                      String code = this.getCodeParameter(widget.redirectUrl);
+                      String code = this.getCodeParameter(c);
                       Navigator.pop(context, code);
                     }
                   },

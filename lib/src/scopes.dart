@@ -1,2 +1,2 @@
 
-enum SpotifyScopes { userReadEmail, playlistReadPrivate }
+enum SpotifyScopes { userReadEmail, playlistReadPrivate,playlistCollaboratePrivate }
