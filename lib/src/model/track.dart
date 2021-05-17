@@ -8,6 +8,7 @@ class Track{
     return Track(
         id: data['track']['id'],
       name: data['track']['name'],
+      url: data['track']['preview_url'],
       albumName: data['track']['album']['name'],
       artists: List<String>.from((data['track']['artists'] as List).map((e) => e['name']).toList())
     );
