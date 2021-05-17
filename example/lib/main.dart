@@ -35,7 +35,7 @@ class CheckSpot extends StatefulWidget {
 }
 
 class _CheckSpotState extends State<CheckSpot> {
-  List<Map<String, dynamic>> playlists = [];
+  List<Playlist> playlists = [];
   List<String> tokenList = [];
   List<Track> tracks = [];
   Spotify sp;
@@ -76,13 +76,11 @@ class _CheckSpotState extends State<CheckSpot> {
           ...playlists
               .map((e) => ListTile(
               onTap: ()async{
-                print('heyy');
-                tracks = await sp.getTracksOfPlaylist(accessToken : tokenList[0], playlistId: e['playlistId']);
+                tracks = await sp.getTracksOfPlaylist(accessToken : tokenList[0], playlistId: e.id);
                 setState(() {
-
                 });
               },
-              title: Text(e['playlistName']), subtitle: Text(e['playlistId'])))
+              title: Text(e.name), subtitle: Text(e.id)))
               .toList(),
           ...tracks
               .map((track) => ListTile(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:spotify_web_api/spotify_web_api.dart';
 import 'package:spotify_web_api/src/constants.dart';
 import 'package:spotify_web_api/src/endpoints.dart';
 import 'package:spotify_web_api/src/model/track.dart';
@@ -44,7 +45,7 @@ class SpotifyWebApi {
 
   Future<List<String>> getAccessToken(String code) => _getAccessToken(code);
 
-  Future<List<Map<String, dynamic>>> _getUserPlaylists(
+  Future<List<Playlist>> _getUserPlaylists(
       String accessToken) async {
     try {
       Uri path = Uri.parse("$spotifyPlaylistBaseUrl?limit=50");
@@ -58,8 +59,8 @@ class SpotifyWebApi {
       );
       if (response.statusCode == 200) {
         final result = jsonDecode(response.body);
-        List<Map<String, dynamic>> playlists = (result['items'] as List)
-            .map((e) => {'playlistId': e['id'], 'playlistName': e['name']})
+        List<Playlist> playlists = (result['items'] as List)
+            .map((e) => Playlist.fromMap(e))
             .toList();
         return playlists;
       }
@@ -69,7 +70,7 @@ class SpotifyWebApi {
     return [];
   }
 
-  Future<List<Map<String, dynamic>>> getUserPlaylists(String accessToken) =>
+  Future<List<Playlist>> getUserPlaylists(String accessToken) =>
       _getUserPlaylists(accessToken);
 
 
@@ -87,7 +88,7 @@ class SpotifyWebApi {
 
       if (response.statusCode == 200) {
         final result = jsonDecode(response.body);
-        print('tracks ' + result.toString());
+
         List<Track> tracks = (result['items'] as List)
             .map((e) => Track.fromMap(e))
             .toList();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spotify_web_api/src/core.dart';
+import 'package:spotify_web_api/src/model/playlist.dart';
 import 'package:spotify_web_api/src/model/track.dart';
 import 'package:spotify_web_api/src/scopes.dart';
 import 'package:spotify_web_api/src/view/spotify-webview.dart';
@@ -48,7 +49,7 @@ class Spotify {
       return null;
   }
 
-  Future<List<Map<String,dynamic>>> getUserPlaylists(String accessToken) async {
+  Future<List<Playlist>> getUserPlaylists(String accessToken) async {
     return await _spotifyWebApi.getUserPlaylists(accessToken);
   }
 
