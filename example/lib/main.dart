@@ -80,7 +80,7 @@ class _CheckSpotState extends State<CheckSpot> {
                 setState(() {
                 });
               },
-              title: Text(e.name), subtitle: Text(e.id)))
+              title: Text(e.name), subtitle: Text('${e.trackCount} Track(s)')))
               .toList(),
           ...tracks
               .map((track) => ListTile(
