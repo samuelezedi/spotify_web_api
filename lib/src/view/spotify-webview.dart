@@ -106,6 +106,7 @@ class _SpotifyWebViewState extends State<SpotifyWebView> {
             return Stack(
               children: <Widget>[
                 WebView(
+                  userAgent: "random",
                   initialUrl:
                   "${widget.url}",
                   javascriptMode: JavascriptMode.unrestricted,
