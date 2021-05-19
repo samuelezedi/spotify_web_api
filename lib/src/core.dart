@@ -35,8 +35,11 @@ class SpotifyWebApi {
                     utf8.encode("${this._clientId}:${this._clientSecret}")),
           },
           body: body);
-      final result = jsonDecode(response.body);
-      return <String>[result['access_token'], result['refresh_token']];
+      print(response.statusCode);
+      if(response.statusCode==200){
+        final result = jsonDecode(response.body);
+        return <String>[result['access_token'], result['refresh_token']];
+      }
     } catch (e) {
       print('error ' + e.toString());
     }
