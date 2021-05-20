@@ -173,6 +173,15 @@ class _SpotifyWebViewState extends State<SpotifyWebView> {
                     });
                   },
 
+                    onProgress: (p){
+                    print(p);
+                      if(p>70 && showLoading){
+                        setState(() {
+                          showLoading = false;
+                        });
+                      }
+                    },
+
                   onPageFinished: (c) {
                     setState(() {
                       showLoading = false;
@@ -182,7 +191,8 @@ class _SpotifyWebViewState extends State<SpotifyWebView> {
                       String code = this.getCodeParameter(c);
                       Navigator.pop(context, code);
                     }
-                  },
+                  }
+
 
                 ),
                 showLoading ? Align(

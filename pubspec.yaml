@@ -14,7 +14,6 @@ dependencies:
 
   http: ^0.13.3
   webview_flutter: ^2.0.4
-  flutter_inappwebview: ^5.3.2
 
 dev_dependencies:
   flutter_test:
