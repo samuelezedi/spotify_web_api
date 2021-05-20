@@ -64,6 +64,7 @@ class _CheckSpotState extends State<CheckSpot> {
                 var data = await sp.getAuthorizationCode(
                     [SpotifyScopes.playlistReadPrivate], context);
 
+                if(data==null)return;
                 tokenList = await sp.getAccessToken(data);
 
                 playlists = await sp.getUserPlaylists(tokenList[0]);

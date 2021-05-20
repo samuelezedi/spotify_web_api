@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 
@@ -30,6 +33,18 @@ class _SpotifyWebViewState extends State<SpotifyWebView> {
     // TODO: implement initState
     super.initState();
   }
+  // InAppWebViewController webViewController;
+  // InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
+  //     crossPlatform: InAppWebViewOptions(
+  //       useShouldOverrideUrlLoading: true,
+  //       mediaPlaybackRequiresUserGesture: false,
+  //     ),
+  //     android: AndroidInAppWebViewOptions(
+  //       useHybridComposition: true,
+  //     ),
+  //     ios: IOSInAppWebViewOptions(
+  //       allowsInlineMediaPlayback: true,
+  //     ));
 
   showAdvice() {
     showDialog(
@@ -83,8 +98,13 @@ class _SpotifyWebViewState extends State<SpotifyWebView> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () {
-        Navigator.pop(context);
+      onWillPop: () async{
+        //bool cgb = await controller.canGoBack();
+        if(controller!=null && (await controller.canGoBack())){
+          controller.goBack();
+        }else{
+          showAdvice();
+        }
         return Future.value(false);
       },
       child: Scaffold(
@@ -97,8 +117,12 @@ class _SpotifyWebViewState extends State<SpotifyWebView> {
                 Icons.arrow_back,
                 color: Colors.black,
               ),
-              onPressed: () {
+              onPressed: () async{
                 //working on here
+                if(await controller.canGoBack()) {
+                  controller.goBack();
+                  return;
+                }
                 showAdvice();
               },
             ),
@@ -107,12 +131,41 @@ class _SpotifyWebViewState extends State<SpotifyWebView> {
             mContext = context;
             return Stack(
               children: <Widget>[
+                // InAppWebView(
+                //   initialUrlRequest:URLRequest(url: Uri.parse("${widget.url}")),
+                //   initialOptions: options,
+                //   onWebViewCreated: (con) {
+                //     controller = con;
+                //   },
+                //   onLoadStart: (c,url) {
+                //     // controller.currentUrl().then((_) {
+                //     //   print(_);
+                //     // });
+                //   },
+                //
+                //   onLoadStop: (c,url) {
+                //     setState(() {
+                //       showLoading = false;
+                //     });
+                //     if (url.toString().contains("code=")) {
+                //       Future.delayed(Duration(seconds: 2));
+                //       String code = this.getCodeParameter(url.toString());
+                //       Navigator.pop(context, code);
+                //     }
+                //   },
+                //
+                // ),
                 WebView(
+                  gestureRecognizers: Set()
+                    ..add(Factory<VerticalDragGestureRecognizer>(
+                            () => VerticalDragGestureRecognizer())),
                   initialUrl:
                   "${widget.url}",
                   javascriptMode: JavascriptMode.unrestricted,
                   onWebViewCreated: (WebViewController con) {
-                    controller = con;
+                    setState(() {
+                      controller = con;
+                    });
                   },
                   onPageStarted: (c) {
                     controller.currentUrl().then((_) {
