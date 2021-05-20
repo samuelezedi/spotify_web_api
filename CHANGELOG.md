@@ -1,3 +1,4 @@
-## [0.0.1] - TODO: Add release date.
+## [0.0.1+dev] - First release on pub.dev
 
-* TODO: Describe initial release.
+* authentication implemented
+* acquiring authorization code implemented
