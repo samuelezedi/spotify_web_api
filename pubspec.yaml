@@ -1,8 +1,9 @@
 name: spotify_web_api
-description: A spotify web api handler
-version: 0.0.1
-author:
-homepage:
+description: A spotify web api implementation in dart
+version: 0.0.1+dev
+authors:
+  - samuelezedi.com
+homepage: https://github.com/samuelezedi/spotify_web_api
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
