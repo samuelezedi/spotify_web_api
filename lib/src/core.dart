@@ -48,6 +48,40 @@ class SpotifyWebApi {
 
   Future<List<String>> getAccessToken(String code) => _getAccessToken(code);
 
+  Future<String> _refreshAccessToken(String refreshToken) async {
+    Map<String, dynamic> headers = {
+      'Authorization': "Basic " +
+          base64.encode(utf8.encode("${this._clientId}:${this._clientSecret}")),
+    };
+
+    Map<String, dynamic> body = {
+      'grant_type': 'refresh_token',
+      'refresh_token': refreshToken,
+    };
+
+    try {
+      Uri path = Uri.parse("$spotifyApiBaseUrl" + "${SpotifyEndpoints.token}");
+      final response = await post(path,
+          headers: {
+            'Authorization': "Basic " +
+                base64.encode(
+                    utf8.encode("${this._clientId}:${this._clientSecret}")),
+          },
+          body: body);
+      print(response.statusCode);
+      if(response.statusCode==200){
+        final result = jsonDecode(response.body);
+        return result['access_token'];
+       // return <String>[result['access_token'], result['refresh_token']];
+      }
+    } catch (e) {
+      print('error ' + e.toString());
+    }
+    return '';
+  }
+  Future<String> refreshAccessToken(String refreshToken) => _refreshAccessToken(refreshToken);
+
+
   Future<List<Playlist>> _getUserPlaylists(
       String accessToken) async {
     try {

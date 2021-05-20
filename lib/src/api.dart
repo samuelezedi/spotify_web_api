@@ -38,6 +38,10 @@ class Spotify {
     return await _spotifyWebApi.getAccessToken(code);
   }
 
+  Future<String> refreshAccessToken(String refreshToken) async {
+    return await _spotifyWebApi.refreshAccessToken(refreshToken);
+  }
+
   Future<String> getAuthorizationCode(List<SpotifyScopes> scope,BuildContext context) async {
       this._authorizationCode = _spotifyWebApi.getAuthorization(scope);
       //call Webview
@@ -56,6 +60,8 @@ class Spotify {
   Future<List<Track>> getTracksOfPlaylist({@required String accessToken, @required String playlistId}) async {
     return await _spotifyWebApi.getTracksOfPlaylist(accessToken,playlistId);
   }
+
+
 
 
 

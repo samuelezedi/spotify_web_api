@@ -60,13 +60,23 @@ class _CheckSpotState extends State<CheckSpot> {
           Center(
             child: InkWell(
               onTap: () async {
+               setState(() {
+                 playlists.clear();
+                 tracks.clear();
+               });
 
+              if(tokenList.isEmpty) {
                 var data = await sp.getAuthorizationCode(
                     [SpotifyScopes.playlistReadPrivate], context);
 
-                if(data==null)return;
+                if (data == null) return;
                 tokenList = await sp.getAccessToken(data);
-
+              }else{
+                print('refreshing');
+                var refreshToken = await sp.refreshAccessToken(tokenList[1]);
+                print(refreshToken);
+                if(refreshToken.isNotEmpty) tokenList[0] = refreshToken;
+              }
                 playlists = await sp.getUserPlaylists(tokenList[0]);
                 setState(() {});
               },
